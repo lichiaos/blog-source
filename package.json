@@ -1,0 +1,14 @@
+{
+  "name": "test-blog",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=dev nodemon ./bin/www.js",
+    "prod": "cross-env NODE_ENV=production nodemon ./bin/www.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "cross-env": "^7.0.2",
+    "nodemon": "^2.0.4"
+  }
+}
