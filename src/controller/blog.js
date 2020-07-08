@@ -1,34 +1,68 @@
-const getList = (author, keyword) => {
-  return [
-    {
-      id: 1,
-      title: '标题1',
-      content: '内容1',
-      createTime: 1593475119574,
-      author: '张三'
-    },
-     {
-      id: 2,
-      title: '标题2',
-      content: '内容2',
-      createTime: 1593475167334,
-      author: '李思思'
-    }
-  ]
-}
+const {
+    exec
+} = require('../db/mysql')
 
+const getList = (author, keyword) => {
+    let sql = `select * from blogs where 1=1 `
+    if (author) {
+        sql += `and author=${author} `
+    }
+    if (keyword) {
+        sql += `and title like '%${keyword}%' `
+    }
+    return exec(sql)
+}
 
 const getDetail = (id) => {
-  return {
-      id: 1,
-      title: '标题1',
-      content: '内容1',
-      createTime: 1593475119574,
-      author: '张三'
-  }
+    let sql = `select * from blogs where id='${id}'`
+    return exec(sql).then(row => {
+        return row[0]
+    })
 }
 
-module.exports  = {
-  getList,
-  getDetail
+const newBlog = (blogData = {}) => {
+    const {
+        title,
+        content,
+        author,
+        createtime = Date.now()
+    } = blogData
+    let sql = `insert into blogs (title, content, createtime, author)
+    values('${title}', '${content}', ${createtime}, '${author}')
+    `
+    return exec(sql).then(insertData => {
+        console.log('insertData', insertData)
+        return {
+            id: insertData.insertId
+        }
+    })
+}
+
+const updateBlog = (id, blogData = {}) => {
+    const { title, content } = blogData
+    let sql = `update blogs set title='${title}', content='${content}' where id='${id}'`
+    return exec(sql).then(updateData => {
+        if (updateData.affectedRows > 0) {
+            return true
+        }
+        return false
+    })
+}
+
+const delData = (id, author) => {
+    let sql = `delete from blogs where id='${id}' and author='${author}'`
+     return exec(sql).then(delData => {
+        if (delData.affectedRows > 0) {
+            return true
+        }
+        return false
+    })
+}
+
+module.exports = {
+    getList,
+    getDetail,
+    newBlog,
+    updateBlog,
+    delData
 }

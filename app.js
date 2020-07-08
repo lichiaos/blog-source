@@ -43,11 +43,13 @@ const serverHandler = (req, res) => {
   getPostData(req).then(postData => {
     req.body = postData
     let blogData = handlerBlogRouter(req, res)
-    let userData = hadnlerUserRouter(req, res)
     if (blogData) {
-      res.end(JSON.stringify(blogData))
-      return
+        blogData.then(blogData => {
+           res.end(JSON.stringify(blogData))
+        }) 
+        return
     }
+    let userData = hadnlerUserRouter(req, res)
     if (userData) {
       res.end(JSON.stringify(userData))
       return

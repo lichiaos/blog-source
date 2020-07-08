@@ -10,5 +10,8 @@
   "dependencies": {
     "cross-env": "^7.0.2",
     "nodemon": "^2.0.4"
+  },
+  "devDependencies": {
+    "mysql": "^2.18.1"
   }
 }
