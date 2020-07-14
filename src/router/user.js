@@ -7,7 +7,7 @@ const handlerUserRouter = ((req, res) => {
         password
     } = req.body
 
-    if (method === 'POST' && req.path === '/api/user/login') {
+    if (method === 'GET' && req.path === '/api/user/login') {
        let result = loginCheck(username, password)
       return  result.then(loginData => {
            if (loginData.username) {
@@ -16,6 +16,7 @@ const handlerUserRouter = ((req, res) => {
            return new ErrorModel('登录失败')
        })
     }
+
 })
 
 module.exports = handlerUserRouter

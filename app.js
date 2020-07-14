@@ -53,11 +53,11 @@ const serverHandler = (req, res) => {
     let needSetCookie = false
     let userId = req.cookie.userId
 
-    if (!SESSION_DATA[userId]) SESSION_DATA[userId] = {}
     if (!userId) {
         userId = `${Date.now()}_${Math.random()}`
         needSetCookie = true
     }
+    if (!SESSION_DATA[userId]) SESSION_DATA[userId] = {}
     req.session =  SESSION_DATA[userId]
     
     getPostData(req).then(postData => {
